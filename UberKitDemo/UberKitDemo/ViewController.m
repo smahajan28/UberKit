@@ -9,7 +9,9 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-
+{
+    __block UberProduct *product;
+}
 @end
 
 @implementation ViewController
@@ -31,17 +33,17 @@
 
 - (void) callCientAuthenticationMethods
 {
-    UberKit *uberKit = [[UberKit alloc] initWithServerToken:@"YOUR_SERVER_TOKEN"]; //Add your server token
+    UberKit *uberKit = [[UberKit alloc] initWithServerToken:@"UMU0bKuT87OAF6Czgl515pOCF7cpApZervGP5Dbl"]; //Add your server token
     //[[UberKit sharedInstance] setServerToken:@"YOUR_SERVER_TOKEN"]; //Alternate initialization
     
     CLLocation *location = [[CLLocation alloc] initWithLatitude:37.7833 longitude:-122.4167];
     CLLocation *endLocation = [[CLLocation alloc] initWithLatitude:37.9 longitude:-122.43];
-    
+   
     [uberKit getProductsForLocation:location withCompletionHandler:^(NSArray *products, NSURLResponse *response, NSError *error)
      {
          if(!error)
          {
-             UberProduct *product = [products objectAtIndex:0];
+            product = [products objectAtIndex:0];
              NSLog(@"Product name of first %@", product.product_description);
          }
          else
@@ -91,10 +93,11 @@
 
 - (IBAction)login:(id)sender
 {
-    [[UberKit sharedInstance] setClientID:@"YOUR_CLIENTID"];
-    [[UberKit sharedInstance] setClientSecret:@"YOUR_CLIENT_SECRET"];
-    [[UberKit sharedInstance] setRedirectURL:@"YOUR_REDIRECT_URI"];
-    [[UberKit sharedInstance] setApplicationName:@"YOUR_APPLICATION_NAME"];
+    [[UberKit sharedInstance] setClientID:@"fegc5o8Mc861gsFu2CjbKkHRuYOglFu5"];
+    [[UberKit sharedInstance] setClientSecret:@"vLaNyE31usDjcNuBBetvfikcEvBTOicikDUveHa-"];
+    [[UberKit sharedInstance] setRedirectURL:@"gostay://oauth/callback"];
+    [[UberKit sharedInstance] setApplicationName:@"GoStay"];
+    [UberKit sharedInstance].applySandBoxMode = YES;
     //UberKit *uberKit = [[UberKit alloc] initWithClientID:@"YOUR_CLIENTID" ClientSecret:@"YOUR_CLIENT_SECRET" RedirectURL:@"YOUR_REDIRECT_URI" ApplicationName:@"YOUR_APPLICATION_NAME"]; // Alternate initialization
     UberKit *uberKit = [UberKit sharedInstance];
     uberKit.delegate = self;
@@ -111,8 +114,10 @@
              if(!error)
              {
                  NSLog(@"User activity %@", activities);
-                 UberActivity *activity = [activities objectAtIndex:0];
-                 NSLog(@"Last trip distance %f", activity.distance);
+                 if (activities.count > 0) {
+                     UberActivity *activity = [activities objectAtIndex:0];
+                     NSLog(@"Last trip distance %f", activity.distance);
+                 }
              }
              else
              {
@@ -131,6 +136,21 @@
                  NSLog(@"Error %@", error);
              }
          }];
+        
+        
+        
+        [uberKit requestUberRideForProduct: product.product_id startLatitude: 37.7833 startLongitude: -122.4167 endLatitude: 37.9 endLongitude: -122.43 surgeConfirmationId: nil withCompletionHandler:^(UberRide *ride, NSURLResponse *response, NSError *error) {
+            if(!error)
+            {
+                NSLog(@"Ride - %@", ride.requestID);
+            }
+            else
+            {
+                NSLog(@"Error %@", error);
+            }
+        }];
+
+        
     }
     else
     {

@@ -32,6 +32,15 @@
 #import "UberActivity.h"
 #import "UberProfile.h"
 #import "UberPromotion.h"
+#import "UberRide.h"
+#import "UberReceipt.h"
+
+typedef enum : NSUInteger {
+    GET,
+    POST,
+    DELETE,
+    PUT
+} HTTPMethod;
 
 @class UberKit;
 
@@ -42,9 +51,11 @@
 
 @end
 
-typedef void (^CompletionHandler) (NSArray *resultsArray, NSURLResponse *response, NSError *error);
+typedef void (^CompletionHandler) (id resultsArray, NSURLResponse *response, NSError *error);
 typedef void (^ProfileHandler) (UberProfile *profile, NSURLResponse *response, NSError *error);
 typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *response, NSError *error);
+typedef void (^RideHandler) (UberRide *ride, NSURLResponse *response, NSError *error);
+typedef void (^RideDetailsHandler) (UberRide *ride, NSURLResponse *response, NSError *error);
 
 @interface UberKit : NSObject <UIWebViewDelegate>
 
@@ -53,6 +64,7 @@ typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *respo
 @property (strong, nonatomic) NSString *clientSecret;
 @property (strong, nonatomic) NSString *redirectURL;
 @property (strong, nonatomic) NSString *applicationName;
+@property (assign, nonatomic) BOOL applySandBoxMode;
 
 @property (weak, nonatomic) id <UberKitDelegate> delegate;
 
@@ -68,7 +80,6 @@ typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *respo
 #pragma mark - Login
 
 - (void) startLogin;
-- (NSString *) getStoredAuthToken;
 
 #pragma mark - Product Types
 
@@ -93,6 +104,22 @@ typedef void (^PromotionHandler) (UberPromotion *promotion, NSURLResponse *respo
 #pragma mark - User Profie
 
 - (void) getUserProfileWithCompletionHandler: (ProfileHandler) handler;
+
+#pragma mark - Ride Request
+
+- (void) requestUberRideForProduct:(NSString *) productId startLatitude: (float) start_lat startLongitude: (float) start_lon endLatitude: (float) end_lat endLongitude: (float) end_lon surgeConfirmationId: (NSString *) surgeId withCompletionHandler: (RideHandler) handler;
+
+#pragma mark - Ride Details
+
+- (void) getDetailsForRideRequest:(NSString *) rideRequestID withCompletionHandler: (RideHandler) handler;
+
+#pragma mark - Cancel Ride
+
+- (void) cancelRideRequest:(NSString *) rideRequestID withCompletionHandler: (CompletionHandler) handler;
+
+#pragma mark - Map Request
+
+- (void) requestMapForRequest:(NSString *) rideRequestID withCompletionHandler: (CompletionHandler) handler;
 
 #pragma mark - Deep Linking
 

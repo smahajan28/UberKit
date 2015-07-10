@@ -29,7 +29,7 @@
 			<string>com.sachinkesiraju.uberkit</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>uberkit</string>
+				<string>gostay</string>
 			</array>
 		</dict>
 	</array>

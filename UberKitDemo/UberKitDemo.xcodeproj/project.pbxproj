@@ -41,6 +41,12 @@
 		03C118DA19CEE03800CEAF18 /* NXOAuth2Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C118CB19CEE03800CEAF18 /* NXOAuth2Request.m */; };
 		03C118DD19CEE43300CEAF18 /* UberActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C118DC19CEE43300CEAF18 /* UberActivity.m */; };
 		03C118E019CEFC6D00CEAF18 /* UberProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C118DF19CEFC6D00CEAF18 /* UberProfile.m */; };
+		BA3577EF1B4D980F006784D7 /* UberRide.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577EE1B4D980F006784D7 /* UberRide.m */; };
+		BA3577F21B4D9890006784D7 /* UberDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577F11B4D9890006784D7 /* UberDriver.m */; };
+		BA3577F51B4D98AA006784D7 /* UberLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577F41B4D98AA006784D7 /* UberLocation.m */; };
+		BA3577F81B4D98C3006784D7 /* UberVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577F71B4D98C3006784D7 /* UberVehicle.m */; };
+		BA3577FB1B4DB926006784D7 /* UberReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577FA1B4DB926006784D7 /* UberReceipt.m */; };
+		BA3577FE1B4DBAB5006784D7 /* UberCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577FD1B4DBAB5006784D7 /* UberCharge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +126,18 @@
 		03C118DE19CEFC6D00CEAF18 /* UberProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberProfile.h; sourceTree = "<group>"; };
 		03C118DF19CEFC6D00CEAF18 /* UberProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberProfile.m; sourceTree = "<group>"; };
 		03C8B6D419AB623900747D3D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		BA3577ED1B4D980F006784D7 /* UberRide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberRide.h; sourceTree = "<group>"; };
+		BA3577EE1B4D980F006784D7 /* UberRide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberRide.m; sourceTree = "<group>"; };
+		BA3577F01B4D9890006784D7 /* UberDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberDriver.h; sourceTree = "<group>"; };
+		BA3577F11B4D9890006784D7 /* UberDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberDriver.m; sourceTree = "<group>"; };
+		BA3577F31B4D98AA006784D7 /* UberLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberLocation.h; sourceTree = "<group>"; };
+		BA3577F41B4D98AA006784D7 /* UberLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberLocation.m; sourceTree = "<group>"; };
+		BA3577F61B4D98C3006784D7 /* UberVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberVehicle.h; sourceTree = "<group>"; };
+		BA3577F71B4D98C3006784D7 /* UberVehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberVehicle.m; sourceTree = "<group>"; };
+		BA3577F91B4DB926006784D7 /* UberReceipt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberReceipt.h; sourceTree = "<group>"; };
+		BA3577FA1B4DB926006784D7 /* UberReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberReceipt.m; sourceTree = "<group>"; };
+		BA3577FC1B4DBAB5006784D7 /* UberCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberCharge.h; sourceTree = "<group>"; };
+		BA3577FD1B4DBAB5006784D7 /* UberCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberCharge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +265,18 @@
 				03C118DF19CEFC6D00CEAF18 /* UberProfile.m */,
 				030FB7671A3352580002363C /* UberPromotion.h */,
 				030FB7681A3352580002363C /* UberPromotion.m */,
+				BA3577ED1B4D980F006784D7 /* UberRide.h */,
+				BA3577EE1B4D980F006784D7 /* UberRide.m */,
+				BA3577F01B4D9890006784D7 /* UberDriver.h */,
+				BA3577F11B4D9890006784D7 /* UberDriver.m */,
+				BA3577F31B4D98AA006784D7 /* UberLocation.h */,
+				BA3577F41B4D98AA006784D7 /* UberLocation.m */,
+				BA3577F61B4D98C3006784D7 /* UberVehicle.h */,
+				BA3577F71B4D98C3006784D7 /* UberVehicle.m */,
+				BA3577F91B4DB926006784D7 /* UberReceipt.h */,
+				BA3577FA1B4DB926006784D7 /* UberReceipt.m */,
+				BA3577FC1B4DBAB5006784D7 /* UberCharge.h */,
+				BA3577FD1B4DBAB5006784D7 /* UberCharge.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,11 +425,15 @@
 				03C118D019CEE03800CEAF18 /* NSURL+NXOAuth2.m in Sources */,
 				03C118D619CEE03800CEAF18 /* NXOAuth2Constants.m in Sources */,
 				03C118DD19CEE43300CEAF18 /* UberActivity.m in Sources */,
+				BA3577EF1B4D980F006784D7 /* UberRide.m in Sources */,
 				03C118D819CEE03800CEAF18 /* NXOAuth2PostBodyPart.m in Sources */,
 				03C118D519CEE03800CEAF18 /* NXOAuth2Connection.m in Sources */,
+				BA3577F51B4D98AA006784D7 /* UberLocation.m in Sources */,
 				038FC3FB19A62B23004CB198 /* UberProduct.m in Sources */,
 				03C118D719CEE03800CEAF18 /* NXOAuth2FileStreamWrapper.m in Sources */,
 				03C118D419CEE03800CEAF18 /* NXOAuth2Client.m in Sources */,
+				BA3577F81B4D98C3006784D7 /* UberVehicle.m in Sources */,
+				BA3577FE1B4DBAB5006784D7 /* UberCharge.m in Sources */,
 				038FC3EF19A62A8E004CB198 /* ViewController.m in Sources */,
 				03C118CE19CEE03800CEAF18 /* NSData+NXOAuth2.m in Sources */,
 				03C118CF19CEE03800CEAF18 /* NSString+NXOAuth2.m in Sources */,
@@ -410,6 +444,8 @@
 				038FC3C519A62A6F004CB198 /* main.m in Sources */,
 				03C118D219CEE03800CEAF18 /* NXOAuth2Account.m in Sources */,
 				03C118D919CEE03800CEAF18 /* NXOAuth2PostBodyStream.m in Sources */,
+				BA3577F21B4D9890006784D7 /* UberDriver.m in Sources */,
+				BA3577FB1B4DB926006784D7 /* UberReceipt.m in Sources */,
 				038FC3FA19A62B23004CB198 /* UberPrice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

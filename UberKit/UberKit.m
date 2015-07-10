@@ -26,6 +26,7 @@
 #import "UberKit.h"
 
 NSString * const baseURL = @"https://api.uber.com/v1";
+NSString * const sandBoxBaseURL = @"https://sandbox-api.uber.com/v1";
 NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 @interface UberKit()
@@ -38,6 +39,11 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (void) performNetworkOperationWithURL: (NSString *) url
                          completionHandler: (void (^)(NSDictionary *, NSURLResponse *, NSError *)) completion;
+- (void) performNetworkOperationWithURL:(NSString *)url
+                             httpMethod:(HTTPMethod) method
+                               httpBody: (NSDictionary *) httpBody
+                      completionHandler:(void (^)(NSDictionary *, NSURLResponse *, NSError *))completion;
+
 @end
 
 @implementation UberKit
@@ -78,19 +84,6 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     }
     
     return self;
-}
-
-#pragma mark - Login
-
-- (void) startLogin
-{
-    [self setupOAuth2AccountStore];
-    [self requestOAuth2Access];
-}
-
-- (NSString *) getStoredAuthToken
-{
-    return _accessToken;
 }
 
 #pragma mark - Product Types
@@ -184,6 +177,8 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (void) getPromotionForLocation:(CLLocation *)startLocation endLocation:(CLLocation *)endLocation withCompletionHandler:(PromotionHandler)handler
 {
+    //GET /v1/promotions
+    
     NSString *url = [NSString stringWithFormat:@"%@/promotions?server_token=%@&start_latitude=%f&start_longitude=%f&end_latitude=%f&end_longitude=%f", baseURL, _serverToken, startLocation.coordinate.latitude, startLocation.coordinate.longitude, endLocation.coordinate.latitude, endLocation.coordinate.longitude];
     [self performNetworkOperationWithURL:url completionHandler:^(NSDictionary *promotionDictionary, NSURLResponse *response, NSError *error)
      {
@@ -203,9 +198,9 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (void) getUserActivityWithCompletionHandler:(CompletionHandler)completion
 {
-    //GET /v1.1/history
+    //GET /v1.2/history
     
-    NSString *url = [NSString stringWithFormat:@"https://api.uber.com/v1.1/history?access_token=%@", _accessToken];
+    NSString *url = [NSString stringWithFormat:@"https://api.uber.com/v1.2/history?access_token=%@", _accessToken];
     [self performNetworkOperationWithURL:url completionHandler:^(NSDictionary *activity, NSURLResponse *response, NSError *error)
      {
          if(!error)
@@ -253,7 +248,118 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
      }];
 }
 
-#pragma mark - Login flow
+#pragma mark - Ride Request
+
+- (void) requestUberRideForProduct:(NSString *) productId startLatitude: (float) start_lat startLongitude: (float) start_lon endLatitude: (float) end_lat endLongitude: (float) end_lon surgeConfirmationId: (NSString *) surgeId withCompletionHandler: (RideHandler) handler
+{
+    NSString *url;
+    if (_applySandBoxMode) {
+        url = [NSString stringWithFormat:@"%@/requests", sandBoxBaseURL];
+    }
+    else{
+        url = [NSString stringWithFormat:@"%@/requests", baseURL];
+    }
+    NSDictionary * dict;
+    if (surgeId) {
+        dict = @{@"product_id": productId, @"start_latitude": @(start_lat), @"start_longitude": @(start_lon), @"end_latitude":@(end_lat), @"end_longitude":@(end_lon), @"surge_confirmation_id":surgeId};
+    }
+    else{
+        dict = @{@"product_id": productId, @"start_latitude": @(start_lat), @"start_longitude": @(start_lon), @"end_latitude":@(end_lat), @"end_longitude":@(end_lon)};
+    }
+    
+    [self performNetworkOperationWithURL:url httpMethod: POST httpBody: dict completionHandler:^(NSDictionary *rideDictionary, NSURLResponse *response, NSError *error)
+    {
+         if(rideDictionary)
+         {
+             UberRide *ride = [[UberRide alloc] initWithDictionary: rideDictionary];
+             handler(ride, response, error);
+         }
+         else
+         {
+             handler(nil, response, error);
+         }
+     }];
+}
+
+#pragma mark - Ride Details
+
+- (void) getDetailsForRideRequest:(NSString *) rideRequestID withCompletionHandler: (RideHandler) handler
+{
+    NSString *url = [NSString stringWithFormat:@"%@/requests/%@", baseURL, rideRequestID];
+    [self performNetworkOperationWithURL:url completionHandler:^(NSDictionary *rideDictionary, NSURLResponse *response, NSError *error)
+     {
+         if(rideDictionary)
+         {
+             UberRide *ride = [[UberRide alloc] initWithDictionary: rideDictionary];
+             handler(ride, response, error);
+         }
+         else
+         {
+             handler(nil, response, error);
+         }
+     }];
+}
+
+#pragma mark - Cancel Ride
+
+- (void) cancelRideRequest:(NSString *) rideRequestID withCompletionHandler: (CompletionHandler) handler
+{
+    NSString *url = [NSString stringWithFormat:@"%@/requests/%@", baseURL, rideRequestID];
+    [self performNetworkOperationWithURL:url httpMethod: DELETE httpBody: nil completionHandler:^(NSDictionary *result, NSURLResponse *response, NSError *error)
+     {
+         if(((NSHTTPURLResponse *)response).statusCode == 204)
+         {
+             [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Ride is successfully Cancelled" delegate: nil cancelButtonTitle: @"ok" otherButtonTitles:nil, nil] show];
+         }
+         handler(nil, response, error);
+
+    }];
+}
+
+#pragma mark - Map Request
+
+- (void) requestMapForRequest:(NSString *) rideRequestID withCompletionHandler: (CompletionHandler) handler
+{
+    NSString *url = [NSString stringWithFormat:@"%@/requests/%@/map", baseURL, rideRequestID];
+    [self performNetworkOperationWithURL:url httpMethod: GET httpBody: nil completionHandler:^(NSDictionary *result, NSURLResponse *response, NSError *error)
+     {
+         if(result)
+         {
+             handler(result,response, error);
+         }
+         else
+         {
+             handler(nil, response, error);
+         }
+     }];
+}
+
+#pragma mark - Map Request
+
+- (void) requesRideReceiptForRequest:(NSString *) rideRequestID withCompletionHandler: (CompletionHandler) handler
+{
+    NSString *url = [NSString stringWithFormat:@"%@/requests/%@/receipt", baseURL, rideRequestID];
+    [self performNetworkOperationWithURL:url httpMethod: GET httpBody: nil completionHandler:^(NSDictionary *receiptDict, NSURLResponse *response, NSError *error)
+     {
+         if(receiptDict)
+         {
+             UberReceipt *rideReceipt = [[UberReceipt alloc] initWithDictionary: receiptDict];
+             handler(rideReceipt,response, error);
+         }
+         else
+         {
+             handler(nil, response, error);
+         }
+     }];
+}
+
+#pragma mark - Login
+
+- (void) startLogin
+{
+    [self setupOAuth2AccountStore];
+    [self requestOAuth2Access];
+}
 
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
@@ -329,6 +435,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 {
     [[NXOAuth2AccountStore sharedStore] setClientID:_clientID
                                              secret:_clientSecret
+                                              scope: [NSSet setWithObjects:@"request", nil]
                                    authorizationURL:[NSURL URLWithString:@"https://login.uber.com/oauth/authorize"]
                                            tokenURL:[NSURL URLWithString:@"https://login.uber.com/oauth/token"]
                                         redirectURL:[NSURL URLWithString:_redirectURL]
@@ -391,28 +498,82 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (void) performNetworkOperationWithURL:(NSString *)url completionHandler:(void (^)(NSDictionary *, NSURLResponse *, NSError *))completion
 {
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    
-    [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error == nil) {
+    [self performNetworkOperationWithURL:url httpMethod: GET httpBody: nil completionHandler: completion];
+}
 
-            NSError *jsonError = nil;
-            NSDictionary *serializedResults = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-            
-            if (jsonError == nil) {
-                completion(serializedResults, response, jsonError);
-            } else {
-                NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
-                completion(nil, convertedResponse, jsonError);
+- (void) performNetworkOperationWithURL:(NSString *)url httpMethod:(HTTPMethod) method httpBody: (NSDictionary *) httpBody completionHandler:(void (^)(NSDictionary *, NSURLResponse *, NSError *))completion
+{
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Authorization" : [NSString stringWithFormat:@"Bearer %@", _accessToken],
+                                            @"Content-Type"  : @"application/json"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:url]];
+
+    if (method == GET) {
+        [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                
+                NSError *jsonError = nil;
+                NSDictionary *serializedResults = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                
+                if (jsonError == nil) {
+                    completion(serializedResults, response, jsonError);
+                } else {
+                    NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
+                    completion(nil, convertedResponse, jsonError);
+                }
             }
+            else
+            {
+                NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
+                completion(nil, convertedResponse, error);
+            }
+        }] resume];
+    }
+    else
+    {
+        switch (method) {
+            case POST:
+            {
+                NSError * jsonError;
+                request.HTTPMethod = @"POST";
+                NSData * data = [NSJSONSerialization dataWithJSONObject: httpBody options: NSJSONWritingPrettyPrinted error: &jsonError];
+                request.HTTPBody = data;
+            }
+                break;
+            case DELETE:
+                request.HTTPMethod = @"DELETE";
+                break;
+            case PUT:
+                request.HTTPMethod = @"PUT";
+                break;
+            default:
+                break;
         }
-        else
-        {
-            NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
-            completion(nil, convertedResponse, error);
-        }
-    }] resume];
+        
+        [[session dataTaskWithRequest: request  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                
+                NSError *jsonError = nil;
+                NSDictionary *serializedResults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&jsonError];
+                
+                if (jsonError == nil) {
+                    completion(serializedResults, response, jsonError);
+                } else {
+                    NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
+                    completion(nil, convertedResponse, jsonError);
+                }
+            }
+            else
+            {
+                NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
+                completion(nil, convertedResponse, error);
+            }
+        }] resume];
+    }
+    
 }
 
 @end

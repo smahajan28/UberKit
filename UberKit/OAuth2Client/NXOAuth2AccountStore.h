@@ -99,6 +99,14 @@ typedef void(^NXOAuth2PreparedAuthorizationURLHandler)(NSURL *preparedURL);
    authorizationURL:(NSURL *)anAuthorizationURL
            tokenURL:(NSURL *)aTokenURL
         redirectURL:(NSURL *)aRedirectURL
+     forAccountType:(NSString *)anAccountType;
+
+- (void)setClientID:(NSString *)aClientID
+             secret:(NSString *)aSecret
+              scope:(NSSet *)theScope
+   authorizationURL:(NSURL *)anAuthorizationURL
+           tokenURL:(NSURL *)aTokenURL
+        redirectURL:(NSURL *)aRedirectURL
       keyChainGroup:(NSString *)aKeyChainGroup
      forAccountType:(NSString *)anAccountType;
 

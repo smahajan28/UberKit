@@ -249,6 +249,24 @@ NSString * const kNXOAuth2AccountStoreAccountType = @"kNXOAuth2AccountStoreAccou
    authorizationURL:(NSURL *)anAuthorizationURL
            tokenURL:(NSURL *)aTokenURL
         redirectURL:(NSURL *)aRedirectURL
+     forAccountType:(NSString *)anAccountType;
+{
+    [self setConfiguration:[NSDictionary dictionaryWithObjectsAndKeys:
+                            aClientID, kNXOAuth2AccountStoreConfigurationClientID,
+                            theScope, kNXOAuth2AccountStoreConfigurationScope,
+                            aSecret, kNXOAuth2AccountStoreConfigurationSecret,
+                            anAuthorizationURL, kNXOAuth2AccountStoreConfigurationAuthorizeURL,
+                            aTokenURL, kNXOAuth2AccountStoreConfigurationTokenURL,
+                            aRedirectURL, kNXOAuth2AccountStoreConfigurationRedirectURL, nil]
+            forAccountType:anAccountType];
+}
+
+- (void)setClientID:(NSString *)aClientID
+             secret:(NSString *)aSecret
+              scope:(NSSet *)theScope
+   authorizationURL:(NSURL *)anAuthorizationURL
+           tokenURL:(NSURL *)aTokenURL
+        redirectURL:(NSURL *)aRedirectURL
       keyChainGroup:(NSString *)aKeyChainGroup
      forAccountType:(NSString *)anAccountType;
 {
