@@ -13,7 +13,7 @@
 
 typedef enum {UBER_REQUEST_PROCESSING, UBER_REQUEST_NO_DRIVER, UBER_REQUEST_ACCEPTED, UBER_REQUEST_ARRIVING, UBER_REQUEST_IN_PROGRESS, UBER_REQUEST_DRIVER_CANCELLED, UBER_REQUEST_RIDER_CANCELLED, UBER_REQUEST_COMPLETED} UberRideRequestStatus;
 
-#define GET_STATUS_FROM_STRING(status_string) (int)[@[@"processing",@"no_drivers_available",@"accepted",@"arriving",@"in_progress",@"driver_canceled",@"rider_canceled",@"completed"] indexOfObject:status_string]
+#define GET_RIDE_STATUS_FROM_STRING(status_string) (int)[@[@"processing",@"no_drivers_available",@"accepted",@"arriving",@"in_progress",@"driver_canceled",@"rider_canceled",@"completed"] indexOfObject:status_string]
 
 @interface UberRide : NSObject
 

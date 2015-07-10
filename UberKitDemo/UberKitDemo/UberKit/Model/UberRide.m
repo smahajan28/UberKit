@@ -17,7 +17,7 @@
     if(self)
     {
         _requestID = [dictionary objectForKey:@"request_id"];
-        _status = GET_STATUS_FROM_STRING([dictionary objectForKey:@"status"]);
+        _status = GET_RIDE_STATUS_FROM_STRING([dictionary objectForKey:@"status"]);
         
         if ([[dictionary objectForKey:@"driver"] isKindOfClass: [NSNull class]] == NO) {
             _driver = [[UberDriver alloc] initWithDictionary: [dictionary objectForKey:@"driver"]];

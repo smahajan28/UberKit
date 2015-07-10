@@ -138,18 +138,31 @@
          }];
         
         
-        
+        __block NSString * rideID;
         [uberKit requestUberRideForProduct: product.product_id startLatitude: 37.7833 startLongitude: -122.4167 endLatitude: 37.9 endLongitude: -122.43 surgeConfirmationId: nil withCompletionHandler:^(UberRide *ride, NSURLResponse *response, NSError *error) {
             if(!error)
             {
+                rideID = ride.requestID;
                 NSLog(@"Ride - %@", ride.requestID);
+                
+                [uberKit getDetailsForRideRequest:rideID withCompletionHandler:^(UberRide *ride, NSURLResponse *response, NSError *error) {
+                    if(!error)
+                    {
+                        rideID = ride.requestID;
+                        NSLog(@"Ride - %@", ride.requestID);
+                    }
+                    else
+                    {
+                        NSLog(@"Error %@", error);
+                    }
+                }];
+
             }
             else
             {
                 NSLog(@"Error %@", error);
             }
         }];
-
         
     }
     else
