@@ -519,7 +519,21 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
                 NSDictionary *serializedResults = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
                 if (jsonError == nil) {
-                    completion(serializedResults, response, jsonError);
+                    if (((NSHTTPURLResponse *)response).statusCode == 200 || ((NSHTTPURLResponse *)response).statusCode == 204) {
+                        completion(serializedResults, response, jsonError);
+                    }
+                    else
+                    {
+                        id errorArray = serializedResults[@"errors"];
+                        if (errorArray != nil && [errorArray isKindOfClass: [NSArray class]])
+                        {
+                            completion(errorArray[0], response, jsonError);
+                        }
+                        else
+                        {
+                            completion(serializedResults, response, jsonError);
+                        }
+                    }
                 } else {
                     NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
                     completion(nil, convertedResponse, jsonError);
@@ -560,7 +574,21 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
                 NSDictionary *serializedResults = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&jsonError];
                 
                 if (jsonError == nil) {
-                    completion(serializedResults, response, jsonError);
+                    if (((NSHTTPURLResponse *)response).statusCode == 200 || ((NSHTTPURLResponse *)response).statusCode == 204) {
+                        completion(serializedResults, response, jsonError);
+                    }
+                    else
+                    {
+                        id errorArray = serializedResults[@"errors"];
+                        if (errorArray != nil && [errorArray isKindOfClass: [NSArray class]])
+                        {
+                            completion(errorArray[0], response, jsonError);
+                        }
+                        else
+                        {
+                            completion(serializedResults, response, jsonError);
+                        }
+                    }
                 } else {
                     NSHTTPURLResponse *convertedResponse = (NSHTTPURLResponse *)response;
                     completion(nil, convertedResponse, jsonError);
@@ -573,7 +601,6 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
             }
         }] resume];
     }
-    
 }
 
 @end

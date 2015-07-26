@@ -47,6 +47,7 @@
 		BA3577F81B4D98C3006784D7 /* UberVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577F71B4D98C3006784D7 /* UberVehicle.m */; };
 		BA3577FB1B4DB926006784D7 /* UberReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577FA1B4DB926006784D7 /* UberReceipt.m */; };
 		BA3577FE1B4DBAB5006784D7 /* UberCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3577FD1B4DBAB5006784D7 /* UberCharge.m */; };
+		BAC8F4991B65125700431C3A /* UberError.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC8F4981B65125700431C3A /* UberError.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +89,7 @@
 		038FC3F619A62B23004CB198 /* UberTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberTime.h; sourceTree = "<group>"; };
 		038FC3F719A62B23004CB198 /* UberTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberTime.m; sourceTree = "<group>"; };
 		038FC3F819A62B23004CB198 /* UberKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberKit.h; sourceTree = "<group>"; };
-		038FC3F919A62B23004CB198 /* UberKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberKit.m; sourceTree = "<group>"; };
+		038FC3F919A62B23004CB198 /* UberKit.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = UberKit.m; sourceTree = "<group>"; tabWidth = 4; };
 		03C118AE19CEE03800CEAF18 /* NSData+NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+NXOAuth2.h"; sourceTree = "<group>"; };
 		03C118AF19CEE03800CEAF18 /* NSData+NXOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+NXOAuth2.m"; sourceTree = "<group>"; };
 		03C118B019CEE03800CEAF18 /* NSString+NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NXOAuth2.h"; sourceTree = "<group>"; };
@@ -138,6 +139,8 @@
 		BA3577FA1B4DB926006784D7 /* UberReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberReceipt.m; sourceTree = "<group>"; };
 		BA3577FC1B4DBAB5006784D7 /* UberCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberCharge.h; sourceTree = "<group>"; };
 		BA3577FD1B4DBAB5006784D7 /* UberCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberCharge.m; sourceTree = "<group>"; };
+		BAC8F4971B65125700431C3A /* UberError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberError.h; sourceTree = "<group>"; };
+		BAC8F4981B65125700431C3A /* UberError.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = UberError.m; sourceTree = "<group>"; tabWidth = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +280,8 @@
 				BA3577FA1B4DB926006784D7 /* UberReceipt.m */,
 				BA3577FC1B4DBAB5006784D7 /* UberCharge.h */,
 				BA3577FD1B4DBAB5006784D7 /* UberCharge.m */,
+				BAC8F4971B65125700431C3A /* UberError.h */,
+				BAC8F4981B65125700431C3A /* UberError.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 				03C118E019CEFC6D00CEAF18 /* UberProfile.m in Sources */,
 				038FC3FC19A62B23004CB198 /* UberTime.m in Sources */,
 				03C118D119CEE03800CEAF18 /* NXOAuth2AccessToken.m in Sources */,
+				BAC8F4991B65125700431C3A /* UberError.m in Sources */,
 				03C118D019CEE03800CEAF18 /* NSURL+NXOAuth2.m in Sources */,
 				03C118D619CEE03800CEAF18 /* NXOAuth2Constants.m in Sources */,
 				03C118DD19CEE43300CEAF18 /* UberActivity.m in Sources */,
